@@ -1,7 +1,6 @@
 #include "current_sensor.h"
 
 void current_sensor::begin() {
-  // Serial.println(F("Starting sensor"));
   tcaselect(address);
   device.begin();
   device.setCalibration_32V_Custom();

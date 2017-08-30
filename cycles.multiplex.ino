@@ -36,8 +36,6 @@ void setup() {
 void loop() {
   bool on = false;
   for (int i = 0; i < SENSOR_COUNT; i++) {
-    char msg[256];
-    char val[6];
     on |= sensors[i]->isOn();
   }
 
