@@ -1,0 +1,1 @@
+Currently only supporting 8 devices. I slightly customized Adafruit_INA219.cpp.
