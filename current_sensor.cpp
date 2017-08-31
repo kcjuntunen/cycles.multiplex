@@ -1,7 +1,6 @@
 #include "current_sensor.h"
 
 void current_sensor::begin() {
-  // Serial.println(F("Starting sensor"));
   tcaselect(address);
   device.begin();
   device.setCalibration_32V_Custom();
@@ -40,18 +39,22 @@ void current_sensor::setCyclingLevel(float val) {
 }
 
 float current_sensor::getCurrent_mA(void) {
-  tcaselect(address);
-  return device.getCurrent_mA();
+  if (visible) {
+    tcaselect(address);
+    return device.getCurrent_mA();
+  } else {
+    return 0;
+  }
 }
 
 bool current_sensor::isOn(void) {
   float current = getCurrent_mA();
   float diff = abs(current_zero - current);
-
+  bool cyc = diff > cycling_level;
   if (on_equals_true)
-    return diff > cycling_level;
+    return diff > threshold;
   else
-    return diff < cycling_level;
+    return diff < threshold;
 }
 
 void current_sensor::show(void) {
@@ -70,14 +73,33 @@ uint8_t current_sensor::getAddress(void) {
   return address;
 }
 
-current_sensor::current_sensor(uint8_t addr) {
-  address = addr;
-  Adafruit_INA219 device(0x40);
-  begin();
+void current_sensor::constructName(void) {
+  char addr[2];
+  dtostrf(address, 1, 0, addr);
+  sprintf(name, "sensor# %s", addr);
 }
 
-current_sensor::current_sensor(uint8_t addr, bool on_is_true) {
+bool current_sensor::findDevices(void) {
+  tcaselect(address);
+  uint8_t data;
+  if (!twi_writeTo(0x40, &data, 0, 1, 1)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+current_sensor::current_sensor(uint8_t addr) {
+  address = addr;
+  constructName();
+  // visible = findDevices();
+  if (visible) {
+    Adafruit_INA219 device(0x40);
+    begin();
+  }
+}
+
+current_sensor::current_sensor(uint8_t addr, bool on_is_true):
+  current_sensor::current_sensor(addr) {
   on_equals_true = on_is_true;
-  Adafruit_INA219 device(0x40);
-  begin();
 }

@@ -1,6 +1,10 @@
 #include <Wire.h>
 #include "./Adafruit_INA219.h"
 
+extern "C" {
+#include "utility/twi.h"
+}
+
 #ifndef _CURR_SENS_H
 #define _CURR_SENS_H
 
@@ -24,12 +28,15 @@ class current_sensor {
   void setCyclingLevel(float val);
   void show(void);
   void hide(void);
+  char name[10];
  private:
   void begin(void);
   void tcaselect(uint8_t);
+  bool findDevices(void);
+  void constructName(void);
 
   float current_zero = 0;
-  float threshold = 0.1;
+  float threshold = 0.3;
   float cycling_level = 0.4;
 
   uint8_t address;
