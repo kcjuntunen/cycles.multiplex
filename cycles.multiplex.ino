@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <avr/wdt.h>
 #include "./current_sensor.h"
 
@@ -76,7 +75,7 @@ void sendStartJSON() {
       char msg[256];
       char val[6];
       dtostrf(sensors[i]->getCurrent_mA(), 4, 2, val);
-      sprintf(msg, ", \"sensor %d mA\": %s", sensors[i]->getAddress(), val);
+      sprintf(msg, ", \"%s\": %s", sensors[i]->name, val);
       Serial.print(msg);
     }
   }
@@ -93,7 +92,7 @@ void sendStopJSON() {
       char msg[256];
       char val[6];
       dtostrf(sensors[i]->getCurrent_mA(), 4, 2, val);
-      sprintf(msg, ", \"sensor %d mA\": %s", sensors[i]->getAddress(), val);
+      sprintf(msg, ", \"%s\": %s", sensors[i]->name, val);
       Serial.print(msg);
     }
   }
