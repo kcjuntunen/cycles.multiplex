@@ -27,7 +27,6 @@ void setup() {
     sensors[i] = new current_sensor(i);
   }
 
-  sensors[0]->hide();
   wdt_enable(WDTO_8S);
 }
 

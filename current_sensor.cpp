@@ -80,6 +80,7 @@ void current_sensor::constructName(void) {
 }
 
 bool current_sensor::findDevices(void) {
+  Wire.begin();
   tcaselect(address);
   uint8_t data;
   if (!twi_writeTo(0x40, &data, 0, 1, 1)) {
@@ -92,7 +93,7 @@ bool current_sensor::findDevices(void) {
 current_sensor::current_sensor(uint8_t addr) {
   address = addr;
   constructName();
-  // visible = findDevices();
+  visible = findDevices();
   if (visible) {
     Adafruit_INA219 device(0x40);
     begin();
