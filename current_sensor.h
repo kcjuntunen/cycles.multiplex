@@ -22,6 +22,7 @@ class current_sensor {
   float getZero(void);
   float getThreshold(void);
   float getCyclingLevel(void);
+  float getLastRead(void);
 
   void setZero(float val);
   void setThreshold(float val);
@@ -38,6 +39,7 @@ class current_sensor {
   float current_zero = 0;
   float threshold = 0.3;
   float cycling_level = 0.4;
+  float lastRead = 0;
 
   uint8_t address;
   Adafruit_INA219 device;

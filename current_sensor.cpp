@@ -41,7 +41,8 @@ void current_sensor::setCyclingLevel(float val) {
 float current_sensor::getCurrent_mA(void) {
   if (visible) {
     tcaselect(address);
-    return device.getCurrent_mA();
+    lastRead = device.getCurrent_mA();
+    return lastRead;
   } else {
     return 0;
   }
@@ -71,6 +72,10 @@ bool current_sensor::Visible(void) {
 
 uint8_t current_sensor::getAddress(void) {
   return address;
+}
+
+float current_sensor::getLastRead(void) {
+  return lastRead;
 }
 
 void current_sensor::constructName(void) {

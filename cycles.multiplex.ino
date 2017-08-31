@@ -71,7 +71,7 @@ void sendStartJSON() {
     if (sensors[i]->Visible()) {
       char msg[256];
       char val[6];
-      dtostrf(sensors[i]->getCurrent_mA(), 4, 2, val);
+      dtostrf(sensors[i]->getLastRead(), 4, 2, val);
       sprintf(msg, ", \"%s\": %s", sensors[i]->name, val);
       Serial.print(msg);
     }
@@ -88,7 +88,7 @@ void sendStopJSON() {
     if (sensors[i]->Visible()) {
       char msg[256];
       char val[6];
-      dtostrf(sensors[i]->getCurrent_mA(), 4, 2, val);
+      dtostrf(sensors[i]->getLastRead(), 4, 2, val);
       sprintf(msg, ", \"%s\": %s", sensors[i]->name, val);
       Serial.print(msg);
     }
